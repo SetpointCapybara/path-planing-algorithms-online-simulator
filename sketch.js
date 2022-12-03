@@ -1,26 +1,59 @@
-let bot = new Robot(100, 100);
-let goal = new Goal(300, 300);
-let dt = 0.01;
+let bot = new Robot(50, 100);
+let goal = new Goal(500, 500);
+let scene = 1;
+let start = document.getElementById("Start");
+let stops = document.getElementById("Stop");
+let state = false;
+let scene_selector = document.getElementById("scene_selector");
+
+start.addEventListener("click", function() {
+  state = true;
+})
+
+stops.addEventListener("click", function() {
+  state = false;
+})
+
+scene_selector.addEventListener("change", function() {
+  if (scene_selector.value == "scene 1") {
+    scene = 1;
+  }
+  if (scene_selector.value == "scene 2") {
+    scene = 2;
+  }
+})
+
 
 function draw() {
   background([255, 255, 255, 255]);
-  image(img, 1280 / 2, 720 / 2);
   fill([0, 0, 0, 255]);
-  rect(500, 500, 55, 55);
+  if(scene == 1){
+    rect(700, 100, 50, 300);
+    rect(500, 400, 250, 50);
+    rect(200, 100, 500, 50);
+    rect(200, 100, 500, 50);
+    rect(200, 100, 50, 500);
+    rect(200, 550, 400, 50);
+  }
+
+  if(scene == 2){
+    rect(400, 400, 50, 200);
+    rect(500, 300, 250, 50);
+    rect(300, 200, 500, 50);
+    rect(300, 600, 500, 50);
+    rect(200, 100, 50, 500);
+    rect(100, 150, 400, 50);
+  }
 
   bot.show();
   goal.show();
+  if(state){
+    bot.bug0(goal);
+  }
+  
 
-  dx = goal.x - bot.x;
-  dy = goal.y - bot.y;
-
-  bot.x = bot.x + dt * dx;
-  bot.y = bot.y + dt * dy;
 }
 
-function preload() {
-  img = loadImage("Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg");
-}
 
 function mousePressed() {
   bot.clicked(mouseX, mouseY);
@@ -44,5 +77,12 @@ function mouseDragged() {
 }
 
 function setup() {
-  createCanvas(1280, 720);
+  var canvas = createCanvas(windowWidth - 200, windowHeight - 160);
+  canvas.canvas.getContext("2d", { willReadFrequently: true })
+  canvas.parent('canvasForHTML');
+  
+}
+
+function windowResized() {
+  //resizeCanvas(windowWidth - 200, windowHeight - 200);
 }

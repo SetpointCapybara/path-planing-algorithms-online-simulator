@@ -9,14 +9,72 @@
         padding: 0;
         margin: 0;
         background-color: #ffffff;
+        font-family: monospace;
       }
+
+      .container {
+        width: 100vw;
+        height: 100vh;
+        display: grid;
+
+        grid-template-columns: 200px 1fr;
+        grid-template-rows: 50px 1fr 100px;
+      }
+
+      .footer{
+        grid-column-start: 1;
+        grid-column-end: 3;
+        background-color: black;
+        color: white;
+      }
+
+
+      .menu {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: grey;
+      }
+
+      .header{
+        grid-column-start: 1;
+        grid-column-end: 3;
+        background-color: black;
+        color: white;
+        font-size: 20px;
+      }
+
     </style>
-    <script src="p5.min.js"></script>
-    <script src="robot.js"></script>
-    <script src="sketch.js"></script>
   </head>
 
   <body>
-    <main></main>
+    <div class ="container">
+      <div class="header"><center><p>Path planing algorithms simulator </p> </center>  </div>
+      <div class="menu">
+        
+        <p> MENU </p>  </br>
+        <label for="Algorithm">Algorithm:</label>
+        <select name="cars" id="Algorithm">
+          <option value="bug0">bug0</option>
+        </select>
+        </br></br>
+      
+        <label for="Scene">Scene:</label>
+        <select name="Scene" id="scene_selector">
+          <option value="scene 1">scene 1</option>
+          <option value="scene 2">scene 2</option>
+        </select>
+      </br></br>
+        <input type="button" id="Start" value="Start">
+      </br></br>
+        <input type="button" id="Stop" value="Stop">
+
+      </div>
+      <div class="simulation" id="canvasForHTML"></div>
+      <div class="footer"><center><p>© 2022 Setpoint Capybara. </p> </center>  </div>
+    </div>
   </body>
+  <script src="p5.min.js"></script>
+  <script src="robot.js"></script>
+  <script src="sketch.js"></script>
 </html>

@@ -15,14 +15,16 @@ class Robot {
     let sensors = [];
     let x = 0;
     let y = 0;
+    let d = 0;
     let c = [0, 0, 0];
-    for (let i = 0; i < 8; i++) {
-      x = this.x + 21 * Math.cos(i * (Math.PI / 8));
-      y = this.y + 21 * Math.sin(i * (Math.PI / 8));
-      c = get(x, y).reduce((accumulator, value) => {
+    for (let i = 0; i < 10; i++) {
+      x = this.x + 25 * Math.cos(i * (Math.PI / 5));
+      y = this.y + 25 * Math.sin(i * (Math.PI / 5));
+      
+      d = get(Math.round(x), Math.round(y)).reduce((accumulator, value) => {
         return accumulator + value;
       }, 0);
-      if (c == 255) {
+      if (d == 255) {
         sensors.push(true);
       } else {
         sensors.push(false);
@@ -39,6 +41,43 @@ class Robot {
     } else {
       this.grabbed = false;
     }
+  }
+
+  bug0(goal){
+    let c = this.isTouching();
+    let dx = 0;
+    let dy = 0;
+    let dt = 0.1;
+
+    dx = (goal.x - this.x);
+    if(dx > 0){
+      dx = 10
+    }
+    if(dx < 0){
+      dx = -10
+    }
+    dy = (goal.y - this.y);
+    if(dy > 0){
+      dy = 10
+    }
+    if(dy < 0){
+      dy = -10
+    }
+
+    for(let i = 0; i < 10; i++){
+      if(c[i]){
+        dx = -15*Math.sin(i * (Math.PI / 5));
+        dy = 10*Math.cos(i * (Math.PI / 5));
+      }
+    }
+      let thisx = this.x;
+      let thisy = this.y
+
+      this.x = 0;
+      this.y = 0;
+
+      this.x = thisx + dt * dx;
+      this.y = thisy + dt * dy;
   }
 }
 
