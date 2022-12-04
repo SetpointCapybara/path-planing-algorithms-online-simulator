@@ -90,11 +90,13 @@ class Robot {
     let dx = 0;
     let dy = 0;
     let dt = 0.1;
-    this.x = this.x + dt * ((goal.x - this.x) > 0 ? -10 : 10);
-    this.y = this.y + dt * ((goal.y - this.y) > 0 ? -10 : 10);
+    let dist = Math.sqrt(Math.pow(Math.abs(this.x - goal.x),2) + Math.pow(Math.abs(this.y - goal.y),2));
+    this.x = this.x + dt * -10*((goal.x - this.x)/dist);
+    this.y = this.y + dt * -10*((goal.y - this.y)/dist);
   }
 
   followWall(){
+    
     let dx = 0;
     let dy = 0;
     let dt = 0.1;
@@ -104,8 +106,8 @@ class Robot {
     for(let i = 0; i < 360; i++){ c[i]? hits += 1: hits = hits;}
     for(let i = 0; i < 360; i++){
       if(c[i]){
-        dx = dx -10*Math.cos(i * (Math.PI / 180));
-        dy = dy -10*Math.sin(i * (Math.PI / 180));
+        dx = dx - 10*Math.cos(i * (Math.PI / 180));
+        dy = dy - 10*Math.sin(i * (Math.PI / 180));
       }
     }
     dx > lim ? dx = lim : dx < -lim ? dx = -lim : dx = dx;
@@ -115,6 +117,12 @@ class Robot {
       this.y = this.y + dt * -dy/20;
       return 0;
     }
+    if(hits > 90){
+      this.x = this.x + dt * dx/20;
+      this.y = this.y + dt * dy/20;
+      return 0;
+    }
+    console.log(dy/20, -dx/20, hits);
     this.x = this.x + dt * dy/20;
     this.y = this.y + dt * -dx/20;
   }
@@ -124,12 +132,12 @@ class Robot {
     let hits2 = 0;
     let c = this.isTouching();
     for(let i = 0; i < 360; i++){ c[i]? hits += 1: hits = hits;}
-    if(hits < 1){
-      for(let i = 0; i < 3; i++){this.goToGoal(goal);}
+    if(hits > 1){
+      for(let i = 0; i < 5; i++){this.goToGoal(goal);}
       let c = this.isTouching();
       for(let i = 0; i < 360; i++){ c[i]? hits2 += 1: hits2 = hits2;}
       if(hits2 > hits){
-        for(let i = 0; i < 3; i++){this.goAwayFromGoal(goal);}
+        for(let i = 0; i < 5; i++){this.goAwayFromGoal(goal);}
         this.followWall();
       }
     }else{
