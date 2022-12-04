@@ -1,10 +1,12 @@
 let bot = new Robot(50, 100);
 let goal = new Goal(500, 500);
 let scene = 1;
+let algorithm = 1;
 let start = document.getElementById("Start");
 let stops = document.getElementById("Stop");
 let state = false;
 let scene_selector = document.getElementById("scene_selector");
+let algorithm_selector = document.getElementById("Algorithm");
 
 start.addEventListener("click", function() {
   state = true;
@@ -23,6 +25,20 @@ scene_selector.addEventListener("change", function() {
   }
 })
 
+algorithm_selector.addEventListener("change", function() {
+  if (algorithm_selector.value == "bug0") {
+    algorithm = 1;
+  }
+  if (algorithm_selector.value == "bug1") {
+    algorithm = 2;
+  }
+
+  if (algorithm_selector.value == "bug2") {
+    algorithm = 3;
+  }
+})
+
+
 
 function draw() {
   background([255, 255, 255, 255]);
@@ -30,7 +46,7 @@ function draw() {
   if(scene == 1){
     rect(700, 100, 50, 300);
     rect(500, 400, 250, 50);
-    rect(200, 100, 500, 50);
+    rect(500, 300, 50, 150);
     rect(200, 100, 500, 50);
     rect(200, 100, 50, 500);
     rect(200, 550, 400, 50);
@@ -38,19 +54,23 @@ function draw() {
 
   if(scene == 2){
     rect(400, 400, 50, 200);
-    rect(500, 300, 250, 50);
-    rect(300, 200, 500, 50);
-    rect(300, 600, 500, 50);
     rect(200, 100, 50, 500);
-    rect(100, 150, 400, 50);
+
   }
 
   bot.show();
   goal.show();
   if(state){
-    bot.bug0(goal);
+    if(algorithm == 1){
+      bot.bug0(goal);
+    }
+    if(algorithm == 2){
+      bot.bug1(goal);
+    }
+    if(algorithm == 3){
+      bot.bug2(goal);
+    }
   }
-  
 
 }
 
@@ -77,7 +97,7 @@ function mouseDragged() {
 }
 
 function setup() {
-  var canvas = createCanvas(windowWidth - 200, windowHeight - 160);
+  var canvas = createCanvas(1280, 720);
   canvas.canvas.getContext("2d", { willReadFrequently: true })
   canvas.parent('canvasForHTML');
   
