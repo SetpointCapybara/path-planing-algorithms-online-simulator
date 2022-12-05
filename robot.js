@@ -18,7 +18,7 @@ class Robot {
     this.line_y = 0;
     this.goal_x = 0;
     this.goal_y = 0;
-
+    this.show_grid = false;
   }
 
   show() {
@@ -30,6 +30,14 @@ class Robot {
       stroke([0, 255, 0, 255]);
       line(this.line_x, this.line_y, this.goal_x, this.goal_y);
       stroke(0);
+    }
+    if(this.show_grid){
+      for(let i = 0; i < (Math.round(720/50) + 1) ; i++){
+        line(0,i*50, 1280, i*50);
+      }
+      for(let i = 0; i < (Math.round(1280/50) + 1) ; i++){
+        line(i*50,0, i*50, 1280);
+      }
     }
     noFill();
     circle(this.x, this.y, 2 * this.r);
@@ -213,6 +221,31 @@ class Robot {
         this.goToGoal(goal);
       }
     }
+
+  }
+
+  frontwave(goal){
+    this.show_grid = true; // creating grid
+
+    //creating empty map
+    let row = [];
+    let map = [];
+    for(let i = 0; i < (Math.round(1280/50) + 1) ; i++){
+      row.push(0)
+    }
+    for(let i = 0; i < (Math.round(720/50) + 1) ; i++){
+      map.push(Array.from(row))
+    }
+    let k = 0;
+    //populating map
+    for(let i = 0; i < (Math.round(720/50) + 1) ; i++){
+      for(let j = 0; j < (Math.round(1280/50) + 1) ; j++){
+        map[i][j]=k;
+        k++;
+        console.log(map); 
+      }
+    }
+    console.log(map);
 
   }
 }
