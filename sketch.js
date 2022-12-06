@@ -14,6 +14,9 @@ start.addEventListener("click", function() {
 
 stops.addEventListener("click", function() {
   state = false;
+  bot.map_not_ready = true;
+  bot.show_grid = false;
+  bot.map = [];
 })
 
 scene_selector.addEventListener("change", function() {
@@ -47,6 +50,13 @@ algorithm_selector.addEventListener("change", function() {
 
   if (algorithm_selector.value == "bug2") {
     algorithm = 3;
+  }
+
+  if (algorithm_selector.value == "wavefront") {
+    algorithm = 4;
+  }
+  if (algorithm_selector.value == "rrt") {
+    algorithm = 5;
   }
 })
 
@@ -129,13 +139,19 @@ function draw() {
   goal.show();
   if(state){
     if(algorithm == 1){
-      bot.frontwave(goal);
+      bot.bug0(goal);
     }
     if(algorithm == 2){
       bot.bug1(goal);
     }
     if(algorithm == 3){
       bot.bug2(goal);
+    }
+    if(algorithm == 4){
+      bot.wavefront(goal);
+    }
+    if(algorithm == 5){
+      bot.rrt(goal);
     }
   }
 
